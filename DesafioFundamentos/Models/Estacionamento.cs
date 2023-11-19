@@ -2,9 +2,9 @@ namespace DesafioFundamentos.Models
 {
     public class Estacionamento
     {
-        private decimal _precoInicial = 0;
-        private decimal _precoPorHora = 0;
-        private readonly List<string> _veiculos = new List<string>();
+        private readonly decimal _precoInicial;
+        private readonly decimal _precoPorHora;
+        private readonly List<string> _veiculos = new();
 
         public Estacionamento(decimal precoInicial, decimal precoPorHora)
         {
@@ -22,26 +22,24 @@ namespace DesafioFundamentos.Models
         public void RemoverVeiculo()
         {
             Console.WriteLine("Digite a placa do veículo para remover:");
-
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string placa = "";
+            var placa = Console.ReadLine();
 
             // Verifica se o veículo existe
-            if (_veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
+            if (_veiculos.Any(x => string.Equals(x, placa, StringComparison.CurrentCultureIgnoreCase)))
             {
                 Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
 
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
-                int horas = 0;
-                decimal valorTotal = 0; 
+                // Validando entrada do usuário
+                if (int.TryParse(Console.ReadLine(), out var horas))
+                {
+                    var valorTotal = _precoInicial + _precoPorHora * horas;
 
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
+                    _veiculos.Remove(placa);
 
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                    Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                } else 
+                    Console.WriteLine("O valor inserido para horas não é válido!");
+                
             }
             else
             {
